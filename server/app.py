@@ -8,7 +8,6 @@ app = Flask(__name__)
 app.secret_key="12345"
 CORS(app)
 
-
 client = MongoClient("mongodb+srv://jiaming:9R65kJIHzJOC2e5i@cluster0.akhyses.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp")
 db = client["Communication"]
 user_collection = db["User"]
