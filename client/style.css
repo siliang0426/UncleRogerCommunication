@@ -87,7 +87,7 @@ form input {
   color: #4A4A4A;
   text-indent: 40px;
 }
-form .btn {
+#login {
   outline: none;
   border: none;
   cursor: pointer;
@@ -102,7 +102,7 @@ form .btn {
   font-size: 17px;
 }
 
-#my-button {
+#signup {
   outline: none;
   border: none;
   cursor: pointer;

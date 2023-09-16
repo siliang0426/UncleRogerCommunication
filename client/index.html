@@ -19,11 +19,11 @@
     </div>
     
     <div class="form-field">
-      <button class="btn" type="submit">Log in</button>
+      <button id="login" type="submit">Log in</button>
     </div>
   </form>
   <a href="signup.html">
-    <button id = "my-button">Sign Up</button>
+    <button id = "signup">Sign Up</button>
   </a>
   <script>
     // On form submission
@@ -47,6 +47,7 @@
         data: JSON.stringify(data),
         success: function(response) {
           alert('Server Response: ' + response.message);  //This will show the message from the server
+          window.location.herf('question.html')
         },
         error: function(error) {
           alert('Server Response: ' + error.responseText);
