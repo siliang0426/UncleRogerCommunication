@@ -2,13 +2,15 @@ from flask import Flask,jsonify,request
 from flask_cors import CORS
 from pymongo import MongoClient
 from flask_session import Session
+import os
 import re
 
 app = Flask(__name__)
 app.secret_key="12345"
 CORS(app)
 
-client = MongoClient("mongodb+srv://siliang:AA6fDGeHzpg32wMm@communication.qdhodth.mongodb.net/?retryWrites=true&w=majority")
+MONGO_URL = os.environ.get("MONGO_URL", "mongodb+srv://siliang:AA6fDGeHzpg32wMm@communication.qdhodth.mongodb.net/?retryWrites=true&w=majority")
+client = MongoClient(MONGO_URL)
 db = client["Communication"]
 user_collection = db["User"]
 
@@ -86,6 +88,7 @@ def login():
                 return jsonify({"status": "failure", "error": "No User"}), 400
     except Exception as e:
         return jsonify({"status": "failure", "error": str(e)}), 500
+
 
 @app.route('/patient_history',methods=['POST'])
 def patient_history():
