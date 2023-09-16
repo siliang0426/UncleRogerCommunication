@@ -23,48 +23,6 @@
       
     </div>
   </form>
-  <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $data = array(
-        'Username' => $_POST['Username'],
-        'Email' => $_POST['Email']
-    );
-    
-    // Convert data to JSON format
-    $json_data = json_encode($data, JSON_PRETTY_PRINT);
-
-    // Save JSON data to a file
-    file_put_contents('data.json', $json_data);
-
-    echo "Form data has been saved as JSON.";
-}
-?>
-
-</body>
-</html>
-=======
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Simple Frontend</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
-  <h1>Hello, this is the frontend!</h1>
-  <form id="userForm">
-    <div class="form-field">
-      <input type="text" id="username" placeholder="Username" required />
-    </div>
-    
-    <div class="form-field">
-      <input type="password" id="password" placeholder="Password" required />                         
-    </div>
-    
-    <div class="form-field">
-      <button class="btn" type="submit">Log in</button>
-    </div>
-  </form>
-
   <script>
     // On form submission
     $("#userForm").on('submit', function(event) {
@@ -96,5 +54,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       });
     });
   </script>
+
 </body>
 </html>
