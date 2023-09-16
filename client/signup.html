@@ -1,40 +1,34 @@
+
 <!DOCTYPE html>
 <meta charset="utf-8">
 <html>
 <head>
   <title>Simple Frontend</title>
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> 
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <h1>Doctor's Portal </h1>
+  <h1> Signup Form </h1>
   
-  <form id="userForm">
+  <form id = "userForm">
     <div class="form-field">
-      <input id="username" type="text" placeholder="Username" required/>  <!-- Added ID here -->
+      <input type="text" id = "username" placeholder="Username" required/>
     </div>
     
     <div class="form-field">
-      <input id="password" type="password" placeholder="Password" required/>  <!-- Added ID here -->                       
+      <input type="password" id = "password" placeholder="Password" required/>                         
     </div>
     
     <div class="form-field">
-      <button class="btn" type="submit">Log in</button>
+      <button class="btn" type="submit">Sign Up</button>
+      
     </div>
-    
-    <div class ="form-field">
-      <a href="signup.html">
-        <button class = "btn1">Sign Up</button>
-    </a>
-    </div>
-
   </form>
   <script>
     // On form submission
     $("#userForm").on('submit', function(event) {
       event.preventDefault();  // Prevent the form from submitting the default way
       
-      var username = $("#username").val();  // These should work now
+      var username = $("#username").val();
       var password = $("#password").val();
       
       // Prepare the data to send
@@ -45,15 +39,17 @@
       
       // AJAX POST request
       $.ajax({
-        url: 'http://localhost:5000/login',
+        url: 'http://localhost:5000/user',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function(response) {
-          alert('Server Response: ' + response.message);  // This will show the message from the server
+          alert('Successfully sent data to server!');
+          console.log(response);
         },
         error: function(error) {
-          alert('Server Response: ' + error.responseText);
+          alert('Failed to send data to server.');
+          console.log(error);
         }
       });
     });
