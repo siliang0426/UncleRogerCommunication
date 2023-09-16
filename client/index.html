@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+  <title>Simple Frontend</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <h1>Doctor's Portal </h1>
+  
+  <form id="myForm">
+    <div class="form-field">
+      <input type="text" id="username" placeholder="Username" required/>
+    </div>
+    
+    <div class="form-field">
+      <input type="password" id="password" placeholder="Password" required/>                         
+    </div>
+    
+    <div class="form-field">
+      <button class="btn" type="submit">Log in</button>
+      
+    </div>
+  </form>
+  <script>
+    document.getElementById("myForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        // Get form input values
+        const name = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        // Create a JSON object
+        const formData = {
+            name: username,
+            password: password,
+        };
+
+        // Convert JSON object to a JSON string
+        const formDataJSON = JSON.stringify(formData);
+
+        // You can log the JSON data or save it as a file here
+        console.log(formDataJSON);
+    });
+</script>
+
+</body>
+</html>
