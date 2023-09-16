@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <meta charset="utf-8">
 <html>
@@ -8,13 +9,13 @@
 <body>
   <h1>Doctor's Portal </h1>
   
-  <form id="myForm">
+  <form>
     <div class="form-field">
-      <input type="text" id="username" placeholder="Username" required/>
+      <input type="text" placeholder="Username" required/>
     </div>
     
     <div class="form-field">
-      <input type="password" id="password" placeholder="Password" required/>                         
+      <input type="password" placeholder="Password" required/>                         
     </div>
     
     <div class="form-field">
@@ -23,25 +24,36 @@
     </div>
   </form>
   <script>
-    document.getElementById("myForm").addEventListener("submit", function (e) {
-        e.preventDefault(); // Prevent the default form submission
-
-        // Get form input values
-        const name = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-
-        // Create a JSON object
-        const formData = {
-            name: username,
-            password: password,
-        };
-        // Convert JSON object to a JSON string
-        const formDataJSON = JSON.stringify(formData);
-
-        // You can log the JSON data or save it as a file here
-        console.log(formDataJSON);
+    // On form submission
+    $("#userForm").on('submit', function(event) {
+      event.preventDefault();  // Prevent the form from submitting the default way
+      
+      var username = $("#username").val();
+      var password = $("#password").val();
+      
+      // Prepare the data to send
+      var data = {
+        'Username': username,
+        'PassWord': password,
+      };
+      
+      // AJAX POST request
+      $.ajax({
+        url: 'http://localhost:5000/user',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function(response) {
+          alert('Successfully sent data to server!');
+          console.log(response);
+        },
+        error: function(error) {
+          alert('Failed to send data to server.');
+          console.log(error);
+        }
+      });
     });
-</script>
+  </script>
 
 </body>
 </html>
