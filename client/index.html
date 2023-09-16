@@ -9,13 +9,13 @@
 <body>
   <h1>Doctor's Portal </h1>
   
-  <form>
+  <form id = "userForm">
     <div class="form-field">
-      <input type="text" placeholder="Username" required/>
+      <input type="text" id = "username" placeholder="Username" required/>
     </div>
     
     <div class="form-field">
-      <input type="password" placeholder="Password" required/>                         
+      <input type="password" id = "password" placeholder="Password" required/>                         
     </div>
     
     <div class="form-field">
@@ -23,7 +23,7 @@
       
     </div>
   </form>
-  <script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js">
     // On form submission
     $("#userForm").on('submit', function(event) {
       event.preventDefault();  // Prevent the form from submitting the default way
@@ -40,7 +40,7 @@
       // AJAX POST request
       $.ajax({
         url: 'http://localhost:5000/user',
-        type: 'POST',
+        type: 'GET',
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function(response) {
