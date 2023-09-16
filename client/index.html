@@ -1,21 +1,21 @@
-
 <!DOCTYPE html>
 <meta charset="utf-8">
 <html>
 <head>
   <title>Simple Frontend</title>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> 
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   <h1>Doctor's Portal </h1>
   
-  <form id = "userForm">
+  <form id="userForm">
     <div class="form-field">
-      <input type="text" id = "username" placeholder="Username" required/>
+      <input id="username" type="text" placeholder="Username" required/>  <!-- Added ID here -->
     </div>
     
     <div class="form-field">
-      <input type="password" id = "password" placeholder="Password" required/>                         
+      <input id="password" type="password" placeholder="Password" required/>  <!-- Added ID here -->                       
     </div>
     
     <div class="form-field">
@@ -23,12 +23,12 @@
       
     </div>
   </form>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js">
+  <script>
     // On form submission
     $("#userForm").on('submit', function(event) {
       event.preventDefault();  // Prevent the form from submitting the default way
       
-      var username = $("#username").val();
+      var username = $("#username").val();  // These should work now
       var password = $("#password").val();
       
       // Prepare the data to send
@@ -39,17 +39,15 @@
       
       // AJAX POST request
       $.ajax({
-        url: 'http://localhost:5000/user',
-        type: 'GET',
+        url: 'http://localhost:5000/login',
+        type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function(response) {
-          alert('Successfully sent data to server!');
-          console.log(response);
+          alert('Server Response: ' + response.message);  // This will show the message from the server
         },
         error: function(error) {
-          alert('Failed to send data to server.');
-          console.log(error);
+          alert('Server Response: ' + error.responseText);
         }
       });
     });
