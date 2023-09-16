@@ -38,23 +38,23 @@ form .form-field::before {
   position: absolute;
   left: 15px;
   top: 17px;
-  color: #888888;
+  color: #88888888;
   content: " ";
   display: block;
   background-size: cover;
   background-repeat: no-repeat;
 }
 form .form-field:nth-child(1)::before {
-  background-image: url(img/user-icon.png);
-  width: 20px;
-  height: 20px;
-  top: 15px;
-}
-form .form-field:nth-child(2)::before {
-  background-image: url(img/lock-icon.png);
-  width: 16px;
-  height: 16px;
-}
+    background-image: url(user-icon.png);
+    width: 20px;
+    height: 20px;
+    top: 15px;
+  }
+  form .form-field:nth-child(2)::before {
+    background-image: url(lock-icon.png);
+    width: 16px;
+    height: 16px;
+  }
 form .form-field {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -90,7 +90,7 @@ form .btn {
   margin: 0 auto;
   padding: 0.9rem 2.5rem;
   text-align: center;
-  background-color: #47AB11;
+  background-color: #122eab;
   color: #fff;
   border-radius: 4px;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
