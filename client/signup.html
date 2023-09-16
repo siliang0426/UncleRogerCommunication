@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+  <title>Simple Frontend</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <h1> Signup Form </h1>
+  
+  <form id = "userForm">
+    <div class="form-field">
+      <input type="text" id = "username" placeholder="Username" required/>
+    </div>
+    
+    <div class="form-field">
+      <input type="password" id = "password" placeholder="Password" required/>                         
+    </div>
+    
+    <div class="form-field">
+      <button class="btn" type="submit">Sign Up</button>
+      
+    </div>
+  </form>
+  <script>
+    // On form submission
+    $("#userForm").on('submit', function(event) {
+      event.preventDefault();  // Prevent the form from submitting the default way
+      
+      var username = $("#username").val();
+      var password = $("#password").val();
+      
+      // Prepare the data to send
+      var data = {
+        'Username': username,
+        'PassWord': password,
+      };
+      
+      // AJAX POST request
+      $.ajax({
+        url: 'http://localhost:5000/user',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function(response) {
+          alert('Successfully sent data to server!');
+          console.log(response);
+        },
+        error: function(error) {
+          alert('Failed to send data to server.');
+          console.log(error);
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
