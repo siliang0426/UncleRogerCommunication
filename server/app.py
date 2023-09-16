@@ -2,15 +2,14 @@ from flask import Flask,jsonify,request
 from flask_cors import CORS
 from pymongo import MongoClient
 from flask_session import Session
-import os
 import re
 
 app = Flask(__name__)
 app.secret_key="12345"
 CORS(app)
 
-MONGO_URL = os.environ.get("MONGO_URL", "mongodb+srv://siliang:AA6fDGeHzpg32wMm@communication.qdhodth.mongodb.net/?retryWrites=true&w=majority")
-client = MongoClient(MONGO_URL)
+
+client = MongoClient("mongodb+srv://jiaming:9R65kJIHzJOC2e5i@cluster0.akhyses.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp")
 db = client["Communication"]
 user_collection = db["User"]
 
