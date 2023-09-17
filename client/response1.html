@@ -4,6 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responses</title>
     <link rel="stylesheet" href="response_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <h1>Patient Question</h1>
@@ -44,10 +47,31 @@
 
     <div class="container question" style="margin-left:250px">
         <img src="./images/user.png" alt="Avatar" class="right">
-        <p>Doctor, I've been feeling more tired than usual lately. What could be causing this fatigue, and how can I address
-            it</p>
+        <p id="rquestion"></p>
         <span class="time-left">Olivia Reynolds</span>
     </div>
+    <script>
+      window.onload = function() {
+            fetchQuestion();
+            AIResponse();
+        }
+        var q_ID={};
+        function fetchQuestion() {
+            $.ajax({
+                url: 'http://localhost:5000/question_display',
+                type: 'GET',
+                success: function(response) {
+                    document.getElementById('rquestion').textContent = response.message;
+                    console.log(JSON.stringify(response.question_id));
+                    q_ID = {'question_id':response.question_id};
+
+                },
+                error: function(error) {
+                    alert('Error:', error.responseText);
+                }
+            });  
+        }
+    </script>
 
     <div class="input">
       <form id="response_prompt1">
@@ -58,11 +82,27 @@
     
     <div class="container" style="margin-left:250px">
         <img src="./images/artificial-intelligence.png" alt="Avatar">
-        <p>Fatigue can have various causes, such as lack of sleep, stress, anemia, or an underlying medical condition. To
-            determine the cause, I'll need to ask you more about your lifestyle, sleep patterns, and perform some blood
-            tests. In the meantime, make sure you're getting enough sleep, manage stress, and maintain a balanced diet.</p>
+        <p id="aiResponse"></p>
         <span class="time-right">AI</span>
     </div>
+    <script>
+      function AIResponse(){
+        $.ajax({
+                url: 'http://localhost:5000/GPTReport',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(q_ID),
+                success: function(response) {
+                  document.getElementById('aiResponse').textContent = response.report
+                  console.log("success");
+                },
+                  error: function(error) {
+                  console.log("fail");
+                }
+                });
+      }
+
+    </script>
     
     <div class="container" style="margin-left:250px">
         <img src="./images/doctor(1).png" alt="Avatar">

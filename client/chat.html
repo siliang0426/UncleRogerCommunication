@@ -28,13 +28,12 @@
                     document.getElementById('displayQuestion').textContent = response.message;
                     console.log(JSON.stringify(response.question_id));
                     q_ID = {'question_id':response.question_id};
+
                 },
                 error: function(error) {
                     alert('Error:', error.responseText);
                 }
-            });
-
-            
+            });  
         }
         function pushAnswer(){
             // Get the content of the textarea
@@ -48,7 +47,8 @@
                     contentType: 'application/json',  // Fixed the typo here
                     data: JSON.stringify(q_ID),
                     success: function(response) {
-                        alert("Success", response.message);
+                        alert("Success");
+                        window.location.href = 'home.html';
                     },
                     error: function(error) {
                         alert('Error:', error.responseText);

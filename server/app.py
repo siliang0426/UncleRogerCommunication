@@ -14,7 +14,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "a456P77"  # Set secret key
 CORS(app)
 
-openai.api_key = "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"
+openai.api_key = "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"
 client = MongoClient("mongodb+srv://jiaming:9R65kJIHzJOC2e5i@cluster0.akhyses.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp")
 db = client["Communication"]
 user_collection = db["User"]
@@ -182,11 +182,19 @@ def answer2Question():
             if not respond:
                 return jsonify({"status": "failure", "error": "No response provided"}), 400
             
-            # Update the 'responds' field in the document.
-            answer_collection.update_one(
-                {"_id": questionID},
-                {"$addToSet": {"responds": respond}}
-            )
+            existing_answer = answer_collection.find_one({"q_id": questionID})
+
+            if existing_answer:
+                # If the answer already exists, update it
+                answer_collection.update_one(
+                    {"q_id": questionID},
+                    {"$push": {"DrAnswer.responds": respond}}
+                )
+            else:
+                # If the answer doesn't exist, create a new document
+                answer_collection.insert_one(
+                    {"q_id": questionID, "DrAnswer": {"responds": [respond]}}
+                )
             
             return jsonify({"status": "success", "question_id": str(questionID)}), 200
             
@@ -197,6 +205,7 @@ def answer2Question():
 @app.route('/GPTReport', methods=['POST'])
 def GPTReport():
     questionID = request.json.get("question_id",None)
+    questionID = ObjectId(questionID)
     answers = answer_collection.find_one({"_id":questionID})
     # Create a prompt that includes the disease-symptom pattern and the doctor's answer
     prompt = "Disease-Symptom Database:\n"
@@ -205,18 +214,21 @@ def GPTReport():
         prompt += f"{disease}: {', '.join(symptoms)}\n"
 
     prompt += "\nDoctor's Observation:\n"
-    for answer in answers:
-        prompt += answer
-    prompt += "\n\nPlease generate a report and suggestion based on the observation."
+    if answers:
+        responses = answers.get('DrAnswers', {}).get('response', [])
+    
+        for response in responses:
+            prompt+=response
+    prompt += "\n\nPlease generate a report and suggestion arounds 100 words based on the observation."
 
     # Generate the report
-    response = openai.Completion.create(
+    response = openai.ChatCompletion.create(
         model= "gpt-3.5-turbo-0613",
-        prompt=prompt,
+        messages=[{'role':'assistant','content':prompt}],
         max_tokens=1000
     )
     
-    report = response.choices[0].text.strip()
+    report = response['choices'][0]['message']['content']
     return jsonify({"report":report})
 
 if __name__ == '__main__':
