@@ -10,14 +10,37 @@
 
 <h1 id="freeform">Question Panel</h1>
 
-<form>
+<form id = "send"> 
     <textarea id="texting" rows="10" cols="50" type = "text">
     </textarea>
     <div id="filePlace">
         <label class="mr-2">Upload your file:</label>
         <input id = "newFile" type="file" name="file"/>
       </div>
-    <button class="button-14" role="button" type="submit">Submit</button>
+    <button class="button-14" role="button" id="button1" type="submit">Submit</button>
 </form>
+<script>
+    $('#button1').click(function() {
+      // Create a FormData object
+      let formData = new FormData();
+      formData.append('textContent', $('#texting').val());
+      formData.append('file', $('#newFile')[0].files[0]);
+  
+      // Send the FormData object to the server
+      $.ajax({
+        type: 'POST',
+        url: 'http://localhost:5000/question',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+          alert("Successfully sent!");
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    });
+  </script>
 </body>
 </html>
