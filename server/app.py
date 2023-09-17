@@ -2,7 +2,10 @@ from flask import Flask,jsonify,request
 from flask_cors import CORS
 from pymongo import MongoClient
 from flask_session import Session
+from collections import Counter
+import csv
 import re
+import openai
 
 app = Flask(__name__)
 app.secret_key="12345"
@@ -23,6 +26,8 @@ with open(stopwords_file_path, 'r') as f:
         for word in words:
             stopword.append(word.lower())
     
+
+
 
 def get_keywords_from_file(filename):
     HiFreqWord = {}
@@ -61,7 +66,6 @@ def signUp():
                     "PassWord": password
                     })
                 
-                
                 return jsonify({"status": "success","message":"SignUp Success"}), 200
             else:
                 return jsonify({"status": "failure", "error": "Missing fields"}), 400
@@ -90,7 +94,30 @@ def login():
 
 @app.route('/patient_history',methods=['POST'])
 def patient_history():
-    
+    # Dictionary to hold disease as key and symptoms as value
+    disease_symptoms = {}
+
+    # Read the CSV file
+    with open('patients.csv', 'r') as csvfile:
+        csv_reader = csv.reader(csvfile)
+        next(csv_reader)  # Skip the header row
+
+        for row in csv_reader:
+            name, disease, symptom, bp, cholesterol, wc = row
+            symptoms = [s.strip() for s in symptom.split(",")]  # Split by comma and strip whitespace
+        
+            # Populate the dictionary
+            if disease not in disease_symptoms:
+                disease_symptoms[disease] = []
+            disease_symptoms[disease].extend(symptoms)
+
+    # Count the symptoms for each disease
+    for disease, symptoms in disease_symptoms.items():
+        count_symptoms = Counter(symptoms)
+        print(f"Frequent symptoms for {disease}:")
+        for symptom, count in count_symptoms.most_common():
+            print(f"  - {symptom}: {count} occurrences")
+            
     return jsonify({"status": "failure", "error": "not implemented yet"}), 500
 
 
