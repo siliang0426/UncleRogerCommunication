@@ -6,6 +6,9 @@ from collections import Counter
 import csv
 import re
 import openai
+import os
+import gridfs
+
 
 app = Flask(__name__)
 app.secret_key="12345"
@@ -14,6 +17,8 @@ CORS(app)
 client = MongoClient("mongodb+srv://jiaming:9R65kJIHzJOC2e5i@cluster0.akhyses.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp")
 db = client["Communication"]
 user_collection = db["User"]
+question_collection = db["Questions"]
+fs = gridfs.GridFS(db)
 
 #writing stopword
 stopword = []
@@ -113,8 +118,20 @@ def login():
 
 @app.route('/question',methods=['POST'])
 def question():
-          
-    return jsonify({"status": "failure", "error": "not implemented yet"}), 500
+    try:
+        if request.method == 'POST':
+            text_content = request.form.get('textContent')
+            uploaded_file = request.files['file']
+            
+            if uploaded_file.filename != '':
+                file_id = fs.put(uploaded_file, filename=uploaded_file.filename)
+                
+            question = {"question":text_content,"file_id":file_id}
+            
+            question_collection.insert_one(question)
+            return jsonify({"status": "success", "message": "Question submit Success"}), 200
+    except Exception as e:
+        return jsonify({"status": "failure", "error": "fail to return question"}), 500
 
 
 if __name__ == '__main__':
