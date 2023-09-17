@@ -1,0 +1,101 @@
+Patient name,Disease,Symptom,Blood Pressure,Cholesterol,White Cell
+Ian King,COVID-19,"Cough, Chills",94/86,214,14042
+Jack Green,COVID-19,"Fatigue, Loss of Smell",149/86,221,10549
+Helen Smith,Lupus,"Malar Rash, Discoid Rash",141/93,154,8418
+Helen Smith,Hantavirus Infection,"Muscle Aches, Fever",109/74,167,14414
+Charlie Johnson,Hantavirus Infection,"Bleeding, Muscle Aches",159/61,189,16274
+Jack Green,Measles,"Weakness, Red, Watery Eyes",100/61,166,7781
+Charlie White,Measles,"Runny Nose, Aches and Pains",120/74,164,3457
+Ian Williams,Ebola,"Diarrhea, Anorexia",122/83,205,8267
+Alice Miller,Lupus,"Kidney Disorder, Discoid Rash",144/62,229,6149
+David King,COVID-19,"Chills, Cough",97/88,220,13261
+George Green,Hantavirus Infection,"Kidney Failure, Headaches",145/87,220,16853
+Jack Lee,Lupus,"Photosensitivity, Kidney Disorder",137/77,222,2651
+Ian Brown,Hantavirus Infection,"Kidney Failure, Bleeding",146/61,179,5682
+Emily Brown,Diabetes,"Increased Hunger, Increased Thirst",111/76,228,8138
+Alice Green,COVID-19,"Fever, Nausea",113/90,164,8151
+Bob Smith,COVID-19,"Nausea, Loss of Smell",91/89,180,16371
+George Davis,Asthma,"Wheezing, Shortness of Breath",147/100,201,10387
+Charlie Lee,Ebola,"General Malaise and weakness, Anorexia",91/74,183,3841
+George King,Ebola,"Fever, Anorexia",93/96,155,7232
+Ian Davis,Hantavirus Infection,"Kidney Failure, Bleeding",154/81,225,17900
+Ian Smith,COVID-19,"Cough, Fatigue",105/79,214,15259
+David Lee,Lupus,"Discoid Rash, Oral or Nose Ulcers",142/63,177,5751
+Emily Johnson,Hantavirus Infection,"Muscle Aches, Bleeding",106/99,181,4755
+George Smith,Hantavirus Infection,"Abdominal Pain, Muscle Aches",100/94,238,11193
+Jack Williams,COVID-19,"Fatigue, Cough",130/91,184,7737
+Alice Johnson,Hantavirus Infection,"Abdominal Pain, Headaches",94/76,223,15454
+Fiona King,COVID-19,"Loss of Smell, Chills",140/90,159,5874
+Emily Miller,COVID-19,"Loss of Taste, Fever",121/88,222,15693
+Charlie White,Hantavirus Infection,"Headaches, Muscle Aches",133/97,186,12838
+Fiona King,Ebola,"Diarrhea, Muscle and Joint Pains",111/67,199,2540
+Alice Miller,Hantavirus Infection,"Abdominal Pain, Bleeding",92/77,217,16004
+Fiona Williams,COVID-19,"Cough, Chills",98/71,173,14304
+Bob Lee,COVID-19,"Loss of Smell, Fever",92/82,166,16300
+Charlie Johnson,Diabetes,"Increased Hunger, Increased Thirst",157/93,237,5900
+Bob Green,Ebola,"Anorexia, Fever",133/78,232,3829
+Bob White,COVID-19,"Difficulty Breathing, Fever",133/92,210,17135
+Fiona Johnson,Hantavirus Infection,"Bleeding, Headaches",147/74,233,8389
+Charlie White,Hantavirus Infection,"Fever, Muscle Aches",142/97,174,14128
+David Williams,COVID-19,"Loss of Smell, Cough",111/94,181,15795
+Ian Green,COVID-19,"Fatigue, Difficulty Breathing",110/94,197,17297
+Jack White,COVID-19,"Loss of Smell, Nausea",147/63,203,14400
+Jack Davis,Diabetes,"Increased Thirst, Increased Hunger",147/83,193,6645
+George Green,Ebola,"Muscle and Joint Pains, Vomiting",155/75,211,10372
+Emily Davis,COVID-19,"Nausea, Cough",132/91,195,14877
+Jack Williams,Hantavirus Infection,"Bleeding, Muscle Aches",147/81,180,8873
+Ian King,Lupus,"Kidney Disorder, Photosensitivity",125/96,200,10796
+Charlie Lee,Hantavirus Infection,"Kidney Failure, Muscle Aches",155/97,229,16570
+Charlie Brown,COVID-19,"Cough, Nausea",155/87,206,14750
+David Davis,Ebola,"Muscle and Joint Pains, Fluid Lost",140/95,193,8805
+Charlie Green,COVID-19,"Fever, Loss of Smell",148/92,209,14758
+Alice Brown,Hantavirus Infection,"Abdominal Pain, Fever",145/65,195,13074
+Charlie Davis,Hantavirus Infection,"Muscle Aches, Fever",129/96,234,10409
+Charlie Miller,Hantavirus Infection,"Fever, Abdominal Pain",119/99,214,16471
+Emily White,Ebola,"Fluid Lost, Anorexia",152/90,215,5051
+Fiona Smith,Common Cold,"Sneezing, Runny Nose",90/94,211,7575
+Helen Lee,COVID-19,"Fever, Chills",109/78,240,11700
+Bob Brown,Hantavirus Infection,"Abdominal Pain, Muscle Aches",148/96,181,14557
+Jack Lee,Hantavirus Infection,"Bleeding, Headaches",116/80,150,17978
+Jack King,Lupus,"Kidney Disorder, Photosensitivity",99/98,176,2093
+Helen White,COVID-19,"Loss of Taste, Loss of Smell",153/99,183,15577
+Jack Smith,Hantavirus Infection,"Headaches, Kidney Failure",148/89,154,17387
+Jack Davis,Lupus,"Photosensitivity, Kidney Disorder",150/72,201,8410
+Alice Williams,COVID-19,"Fatigue, Nausea",127/61,192,17896
+Emily Smith,Flu,"Cough, Fever",106/80,170,8847
+Alice Smith,Lupus,"Malar Rash, Kidney Disorder",110/83,180,10787
+Ian King,Common Cold,"Runny Nose, Sneezing",102/61,159,8078
+Jack Brown,COVID-19,"Loss of Taste, Fatigue",108/79,211,16330
+Helen Johnson,Flu,"Fever, Cough",143/97,232,5025
+Charlie White,Hantavirus Infection,"Abdominal Pain, Bleeding",94/83,174,17741
+Charlie Williams,Measles,"Hacking Cough, Fever",104/66,167,7532
+Alice Smith,Hantavirus Infection,"Headaches, Abdominal Pain",147/77,165,13979
+Bob King,COVID-19,"Cough, Nausea",153/92,177,13021
+Ian Williams,COVID-19,"Fatigue, Cough",138/93,232,15398
+Emily Lee,Hantavirus Infection,"Fever, Bleeding",103/62,239,13073
+Fiona Williams,Measles,"Swollen Eyes, Aches and Pains",103/94,216,8595
+Alice Green,Measles,"Runny Nose, Hacking Cough",133/66,181,2794
+Charlie Davis,COVID-19,"Cough, Fever",142/60,198,17838
+Jack Miller,Hantavirus Infection,"Muscle Aches, Bleeding",139/76,240,15648
+Emily Miller,Measles,"Swollen Eyes, Weakness",135/100,195,6125
+George Miller,Measles,"Swollen Eyes, Runny Nose",144/100,191,9605
+George Lee,Hantavirus Infection,"Fever, Headaches",90/80,177,11042
+Fiona King,COVID-19,"Cough, Nausea",140/64,159,9103
+Helen Miller,Hantavirus Infection,"Muscle Aches, Abdominal Pain",91/71,203,10458
+David Johnson,Hantavirus Infection,"Kidney Failure, Abdominal Pain",139/76,206,14823
+Alice Miller,Hantavirus Infection,"Headaches, Muscle Aches",115/74,192,11117
+Helen Williams,Diabetes,"Increased Hunger, Increased Thirst",90/73,210,7811
+Fiona Lee,Asthma,"Shortness of Breath, Wheezing",97/100,195,7507
+Charlie King,COVID-19,"Loss of Taste, Fatigue",117/64,240,13333
+Alice Smith,Hantavirus Infection,"Muscle Aches, Bleeding",135/96,240,14374
+George Brown,Asthma,"Wheezing, Shortness of Breath",129/90,240,4759
+Helen Lee,Hantavirus Infection,"Headaches, Kidney Failure",138/95,156,7240
+George White,COVID-19,"Nausea, Difficulty Breathing",107/70,232,12491
+Emily Williams,COVID-19,"Fever, Fatigue",103/99,162,17772
+Fiona Green,Ebola,"General Malaise and weakness, Fever",115/79,199,6821
+Bob White,COVID-19,"Nausea, Chills",113/88,236,17296
+Fiona Green,Measles,"Red, Watery Eyes, Runny Nose",155/94,239,3201
+Charlie Brown,Asthma,"Shortness of Breath, Wheezing",123/87,166,7373
+Emily Johnson,Common Cold,"Sneezing, Runny Nose",137/87,215,5146
+Emily Davis,Ebola,"Diarrhea, Fever",149/72,193,10082
+Helen Johnson,Flu,"Fever, Cough",116/96,187,4020

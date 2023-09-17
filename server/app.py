@@ -6,6 +6,9 @@ from collections import Counter
 import csv
 import re
 import openai
+import os
+import gridfs
+
 
 app = Flask(__name__)
 app.secret_key="12345"
@@ -14,6 +17,8 @@ CORS(app)
 client = MongoClient("mongodb+srv://jiaming:9R65kJIHzJOC2e5i@cluster0.akhyses.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp")
 db = client["Communication"]
 user_collection = db["User"]
+question_collection = db["Questions"]
+fs = gridfs.GridFS(db)
 
 #writing stopword
 stopword = []
@@ -25,8 +30,29 @@ with open(stopwords_file_path, 'r') as f:
     # Update word frequencies.
         for word in words:
             stopword.append(word.lower())
-    
 
+freq_disease_symptoms = {}
+disease_symptoms = {}
+with open('reasources/patients.csv', 'r') as csvfile:
+    csv_reader = csv.reader(csvfile)
+    next(csv_reader)  # Skip the header row
+
+    for row in csv_reader:
+        name, disease, symptom, bp, cholesterol, wc = row
+        symptoms = [s.strip() for s in symptom.split(",")]  # Split by comma and strip whitespace
+        
+            # Populate the dictionary
+        if disease not in disease_symptoms:
+            disease_symptoms[disease] = []
+        disease_symptoms[disease].extend(symptoms)
+
+# Count the symptoms for each disease
+for disease, symptoms in disease_symptoms.items():
+    count_symptoms = Counter(symptoms)
+    for symptom, count in count_symptoms.most_common():
+        if disease not in freq_disease_symptoms:
+            freq_disease_symptoms[disease] = []
+        freq_disease_symptoms[disease].append(symptom)
 
 
 def get_keywords_from_file(filename):
@@ -44,9 +70,9 @@ def get_keywords_from_file(filename):
                 
     filtered_HiFreqWord = {k: v for k, v in HiFreqWord.items() if k not in stopword}
     sorted_HiFreqWord = sorted(filtered_HiFreqWord.items(), key=lambda x: x[1], reverse=True)
-    top_10_HiFreqWord = sorted_HiFreqWord[:10]
+    top_5_HiFreqWord = sorted_HiFreqWord[:5]
    
-    return top_10_HiFreqWord[:10]  # Take first 10 keywords
+    return top_5_HiFreqWord[:5]  # Take first 10 keywords
 
 
 @app.route('/signup',methods=['POST'])
@@ -92,33 +118,22 @@ def login():
         return jsonify({"status": "failure", "error": str(e)}), 500
 
 
-@app.route('/patient_history',methods=['POST'])
-def patient_history():
-    # Dictionary to hold disease as key and symptoms as value
-    disease_symptoms = {}
-
-    # Read the CSV file
-    with open('patients.csv', 'r') as csvfile:
-        csv_reader = csv.reader(csvfile)
-        next(csv_reader)  # Skip the header row
-
-        for row in csv_reader:
-            name, disease, symptom, bp, cholesterol, wc = row
-            symptoms = [s.strip() for s in symptom.split(",")]  # Split by comma and strip whitespace
-        
-            # Populate the dictionary
-            if disease not in disease_symptoms:
-                disease_symptoms[disease] = []
-            disease_symptoms[disease].extend(symptoms)
-
-    # Count the symptoms for each disease
-    for disease, symptoms in disease_symptoms.items():
-        count_symptoms = Counter(symptoms)
-        print(f"Frequent symptoms for {disease}:")
-        for symptom, count in count_symptoms.most_common():
-            print(f"  - {symptom}: {count} occurrences")
+@app.route('/question',methods=['POST'])
+def question():
+    try:
+        if request.method == 'POST':
+            text_content = request.form.get('textContent')
+            uploaded_file = request.files['file']
             
-    return jsonify({"status": "failure", "error": "not implemented yet"}), 500
+            if uploaded_file.filename != '':
+                file_id = fs.put(uploaded_file, filename=uploaded_file.filename)
+                
+            question = {"question":text_content,"file_id":file_id}
+            
+            question_collection.insert_one(question)
+            return jsonify({"status": "success", "message": "Question submit Success"}), 200
+    except Exception as e:
+        return jsonify({"status": "failure", "error": "fail to return question"}), 500
 
 
 if __name__ == '__main__':
