@@ -14,6 +14,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "a456P77"  # Set secret key
 CORS(app)
 
+openai.api_key = "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"
 client = MongoClient("mongodb+srv://jiaming:9R65kJIHzJOC2e5i@cluster0.akhyses.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp")
 db = client["Communication"]
 user_collection = db["User"]
@@ -148,8 +149,7 @@ def question_display():
         if request.method == 'GET':
             question = question_collection.find_one()
             if question is None:
-                return jsonify({"status": "failure", "error": "no question"}), 500
-
+                return jsonify({"status": "failure", "error": "question not found"}), 500
             question_message = question['question']
             question_id = question['_id']
             question_id = str(question_id)
@@ -193,7 +193,31 @@ def answer2Question():
     except Exception as e:
         print("Error: ", e)  # Log the exception for debugging
         return jsonify({"status": "failure", "error": "An error occurred"}), 500
+    
+@app.route('/GPTReport', methods=['POST'])
+def GPTReport():
+    questionID = request.json.get("question_id",None)
+    answers = answer_collection.find_one({"_id":questionID})
+    # Create a prompt that includes the disease-symptom pattern and the doctor's answer
+    prompt = "Disease-Symptom Database:\n"
 
+    for disease, symptoms in freq_disease_symptoms.items():
+        prompt += f"{disease}: {', '.join(symptoms)}\n"
+
+    prompt += "\nDoctor's Observation:\n"
+    for answer in answers:
+        prompt += answer
+    prompt += "\n\nPlease generate a report and suggestion based on the observation."
+
+    # Generate the report
+    response = openai.Completion.create(
+        model= "gpt-3.5-turbo-0613",
+        prompt=prompt,
+        max_tokens=1000
+    )
+    
+    report = response.choices[0].text.strip()
+    return jsonify({"report":report})
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0', port=5000)
