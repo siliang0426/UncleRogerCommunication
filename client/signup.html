@@ -1,40 +1,34 @@
+
 <!DOCTYPE html>
 <meta charset="utf-8">
 <html>
 <head>
   <title>Simple Frontend</title>
   <link rel="stylesheet" href="./style.css">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> 
 </head>
 <body>
-  <form>
+  <h1> Signup Form </h1>
+  
+  <form id = "userForm">
     <div class="form-field">
-      <input type="text" placeholder="Username" required/>
+      <input type="text" id = "username" placeholder="Username" required/>
     </div>
     
     <div class="form-field">
-      <input type="password" placeholder="Password" required/>                         
+      <input type="password" id = "password" placeholder="Password" required/>                         
     </div>
     
-<<<<<<< Updated upstream
     <div class="form-field">
-      <button class="btn" type="submit">Log in</button>
-      
+      <button id="signup1" type="submit">Sign Up</button>
     </div>
   </form>
-=======
-    <!-- <div class="form-field"> -->
-      <button id="login" type="submit">Log in</button>
-    <!-- </div> -->
-  </form>
-  <a href="signup.html">
-    <button id = "signup">Sign Up</button>
-  </a>
   <script>
     // On form submission
     $("#userForm").on('submit', function(event) {
       event.preventDefault();  // Prevent the form from submitting the default way
       
-      var username = $("#username").val();  // These should work now
+      var username = $("#username").val();
       var password = $("#password").val();
       
       // Prepare the data to send
@@ -45,21 +39,22 @@
       
       // AJAX POST request
       $.ajax({
-        url: 'http://localhost:5000/login',
+        url: 'http://localhost:5000/signup',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function(response) {
-          alert('Server Response: ' + response.message);  //This will show the message from the server
-          window.location.herf = 'question.html';
+          alert('Successfully sent data to server!');
+          console.log(response);
+          window.location.href = 'index.html';
         },
         error: function(error) {
-          alert('Server Response: ' + error.responseText);
+          alert('Failed to send data to server.');
+          console.log(error);
         }
       });
     });
   </script>
 
->>>>>>> Stashed changes
 </body>
 </html>
