@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,request
+from flask import Flask, jsonify, session, redirect, url_for, request, render_template, abort
 from flask_cors import CORS
 from pymongo import MongoClient
 from flask_session import Session
@@ -8,10 +8,10 @@ import re
 import openai
 import os
 import gridfs
-
+import base64
 
 app = Flask(__name__)
-app.secret_key="12345"
+app.config['SECRET_KEY'] = "a456P77"  # Set secret key
 CORS(app)
 
 client = MongoClient("mongodb+srv://jiaming:9R65kJIHzJOC2e5i@cluster0.akhyses.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp")
@@ -53,6 +53,7 @@ for disease, symptoms in disease_symptoms.items():
         if disease not in freq_disease_symptoms:
             freq_disease_symptoms[disease] = []
         freq_disease_symptoms[disease].append(symptom)
+
 
 
 def get_keywords_from_file(filename):
@@ -109,6 +110,7 @@ def login():
             user1 = user_collection.find_one({"Username": username})
             if user1:
                 if user1["PassWord"] == password:
+                    session["username"] = username
                     return jsonify({"status": "success", "message": "SignIn Success"}), 200
                 else:
                     return jsonify({"status": "failure", "error": "Password Fail"}), 400
@@ -117,10 +119,17 @@ def login():
     except Exception as e:
         return jsonify({"status": "failure", "error": str(e)}), 500
 
+@app.route('/logout', methods=['GET'])
+def logout():
+    # Remove the username from the session if it's there
+    session.pop('username', None)
+    return jsonify({"status": "success", "message": "Logout Success"}), 200
 
 @app.route('/question',methods=['POST'])
 def question():
     try:
+        if 'username' not in session:
+            abort(403)  # Forbidden
         if request.method == 'POST':
             text_content = request.form.get('textContent')
             uploaded_file = request.files.get('file')  # Use get to avoid KeyError
@@ -139,6 +148,29 @@ def question():
         print("Error: ", e)  # Log the exception for debugging
         return jsonify({"status": "failure", "error": "fail to return question"}), 500
 
+@app.route('/question_display',methods=['GET'])
+def question_display():
+    try:
+        if 'username' not in session:
+            abort(403)  # Forbidden
+        if request.method == 'POST':
+            question = question_collection.find_one()
+            
+            file_id = question['file_id']
+            question_message = question['question']
+            
+            file_data = fs.get(file_id)
+            
+            encoded = base64.b64encode(file_data.read()).decode('utf-8')
+            response = {
+                'file_data': encoded,
+                'message': question_message
+            }
+            
+            return jsonify(response), 200
+    except Exception as e:
+        print("Error: ", e)  # Log the exception for debugging
+        return jsonify({"status": "failure", "error": "fail to return question"}), 500
 
 
 if __name__ == '__main__':
