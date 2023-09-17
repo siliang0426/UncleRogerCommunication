@@ -153,7 +153,7 @@ def question_display():
     try:
         if 'username' not in session:
             abort(403)  # Forbidden
-        if request.method == 'POST':
+        if request.method == 'GET':
             question = question_collection.find_one()
             
             file_id = question['file_id']
@@ -171,6 +171,36 @@ def question_display():
     except Exception as e:
         print("Error: ", e)  # Log the exception for debugging
         return jsonify({"status": "failure", "error": "fail to return question"}), 500
+
+
+@app.route('/answer2Question', methods=['POST'])
+def answer2Question():
+    try:
+        if 'username' not in session:
+            abort(403)  # Forbidden
+            
+        if request.method == 'POST':
+            question = question_collection.find_one()
+            if not question:
+                return jsonify({"status": "failure", "error": "No question found"}), 404
+            
+            questionID = question['_id']
+            
+            respond = request.json.get('respond', None)
+            if not respond:
+                return jsonify({"status": "failure", "error": "No response provided"}), 400
+            
+            # Update the 'responds' field in the document.
+            question_collection.update_one(
+                {"_id": questionID},
+                {"$addToSet": {"responds": respond}}
+            )
+            
+            return jsonify({"status": "success", "question_id": str(questionID)}), 200
+            
+    except Exception as e:
+        print("Error: ", e)  # Log the exception for debugging
+        return jsonify({"status": "failure", "error": "An error occurred"}), 500
 
 
 if __name__ == '__main__':
