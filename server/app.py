@@ -123,17 +123,22 @@ def question():
     try:
         if request.method == 'POST':
             text_content = request.form.get('textContent')
-            uploaded_file = request.files['file']
+            uploaded_file = request.files.get('file')  # Use get to avoid KeyError
             
-            if uploaded_file.filename != '':
+            file_id = None  # Initialize to None
+            
+            if uploaded_file and uploaded_file.filename != '':
                 file_id = fs.put(uploaded_file, filename=uploaded_file.filename)
                 
-            question = {"question":text_content,"file_id":file_id}
+            question = {"question": text_content, "file_id": file_id}
             
             question_collection.insert_one(question)
+            
             return jsonify({"status": "success", "message": "Question submit Success"}), 200
     except Exception as e:
+        print("Error: ", e)  # Log the exception for debugging
         return jsonify({"status": "failure", "error": "fail to return question"}), 500
+
 
 
 if __name__ == '__main__':
