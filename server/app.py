@@ -14,7 +14,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "a456P77"  # Set secret key
 CORS(app)
 
-# openai.api_key = "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"
+openai.api_key = "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"
 client = MongoClient("mongodb+srv://jiaming:9R65kJIHzJOC2e5i@cluster0.akhyses.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp")
 db = client["Communication"]
 user_collection = db["User"]
@@ -32,9 +32,24 @@ with open(stopwords_file_path, 'r') as f:
     # Update word frequencies.
         for word in words:
             stopword.append(word.lower())
+def categorize_bp(systolic, diastolic):
+    if systolic < 120 and diastolic < 80:
+        return "Normal"
+    elif 120 <= systolic <= 129 and diastolic < 80:
+        return "Elevated"
+    elif 130 <= systolic <= 139 or 80 <= diastolic <= 89:
+        return "Hypertension stage 1"
+    elif systolic >= 140 or diastolic >= 90:
+        return "Hypertension stage 2"
+    elif systolic > 180 or diastolic > 120:
+        return "Hypertensive Crisis"
+    else:
+        return "Uncategorized"
 
+freq_disease_category ={}
 freq_disease_symptoms = {}
 disease_symptoms = {}
+disease_bp = {}
 with open('reasources/patients.csv', 'r') as csvfile:
     csv_reader = csv.reader(csvfile)
     next(csv_reader)  # Skip the header row
@@ -42,11 +57,19 @@ with open('reasources/patients.csv', 'r') as csvfile:
     for row in csv_reader:
         name, disease, symptom, bp, cholesterol, wc = row
         symptoms = [s.strip() for s in symptom.split(",")]  # Split by comma and strip whitespace
+        systolic, diastolic = map(int, bp.split('/'))
+        category=categorize_bp(systolic, diastolic)
         
-            # Populate the dictionary
+        # Populate the dictionary
         if disease not in disease_symptoms:
             disease_symptoms[disease] = []
         disease_symptoms[disease].extend(symptoms)
+        
+        if disease not in disease_bp:
+            disease_bp[disease] = []
+        disease_bp[disease].extend(category)
+        
+        
 
 # Count the symptoms for each disease
 for disease, symptoms in disease_symptoms.items():
@@ -56,7 +79,12 @@ for disease, symptoms in disease_symptoms.items():
             freq_disease_symptoms[disease] = []
         freq_disease_symptoms[disease].append(symptom)
 
-
+for disease, category in disease_bp.items():
+    count_category = Counter(category)
+    for category, count in count_category.most_common():
+        if disease not in freq_disease_category:
+            freq_disease_category[disease] = []
+        freq_disease_category[disease].append(category)
 
 def get_keywords_from_file(filename):
     HiFreqWord = {}
@@ -211,15 +239,17 @@ def GPTReport():
     prompt = "Disease-Symptom Database:\n"
 
     for disease, symptoms in freq_disease_symptoms.items():
-        prompt += f"{disease}: {', '.join(symptoms)}\n"
+        prompt += f"frequent disease:{disease}: {', frequent symptoms:'.join(symptoms)}\n"
 
+    for disease, category in freq_disease_category.items():
+        prompt += f"frequent disease:{disease}: {', frequent bp category:'.join(category)}\n"
     prompt += "\nDoctor's Observation:\n"
     if answers:
         responses = answers.get('DrAnswers', {}).get('response', [])
     
         for response in responses:
-            prompt+=response
-    prompt += "\n\nPlease generate a report and suggestion arounds 100 words based on the observation."
+            prompt+="response1: "+response+"\n"
+    prompt += "\n\nPlease generate a report and suggestion with two paragraph add up arounds 100 words based on the response and key symptom."
 
     # Generate the report
     response = openai.ChatCompletion.create(
