@@ -87,7 +87,8 @@ form input {
   color: #4A4A4A;
   text-indent: 40px;
 }
-#login {
+
+#login{
   outline: none;
   border: none;
   cursor: pointer;
@@ -117,5 +118,19 @@ form input {
   position: absolute;
   top: 465px; /* Adjust this value to position it below the .btn */
   right: 696px;
+}
+#signup1 {
+  outline: none;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 auto;
+  padding: 0.9rem 2.5rem;
+  text-align: center;
+  background-color: #122eab;
+  color: #fff;
+  border-radius: 4px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  font-size: 17px;
 }
 
