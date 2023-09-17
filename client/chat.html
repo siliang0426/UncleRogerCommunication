@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Generated Question</title>
+
   <link rel="stylesheet" href="./chat.css">
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> 
 </head>
@@ -28,12 +29,13 @@
                     document.getElementById('displayQuestion').textContent = response.message;
                     console.log(JSON.stringify(response.question_id));
                     q_ID = {'question_id':response.question_id};
-
                 },
                 error: function(error) {
                     alert('Error:', error.responseText);
                 }
-            });  
+            });
+
+            
         }
         function pushAnswer(){
             // Get the content of the textarea
