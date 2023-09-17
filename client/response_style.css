@@ -185,3 +185,35 @@ height: 100%;
     float: left;
     color: #999;
   }
+
+  /* style text box */
+  input[type=text], select {
+    width: 90%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 10px solid #1f82b474;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  /* style send button */
+  .button {
+    background-color: #1f82b474; /* Green */
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 100%;
+  }
+
+  .input {
+    background-color: #1f82b474;
+    margin-left: 250px;
+    border-radius: 4px;
+  }
