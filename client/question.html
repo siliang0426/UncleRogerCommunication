@@ -19,5 +19,34 @@
       </div>
     <button class="button-14" role="button" type="submit">Submit</button>
 </form>
+<script>
+  $(document).ready(function(){
+      $("form").submit(function(e){
+          e.preventDefault();
+  
+          var text_content = $("#texting").val();
+          var uploaded_file = $("#newFile")[0].files[0];
+          
+          var formData = new FormData();
+          formData.append('textContent', text_content);
+          formData.append('file', uploaded_file);
+  
+          $.ajax({
+              url: 'http://localhost:5000/question',
+              type: 'POST',
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function(response) {
+                  alert("Success:", response.message);
+              },
+              error: function(error) {
+                  alert("Error:", error.responseText);
+              }
+          });
+      });
+  });
+  </script>
+  
 </body>
 </html>
