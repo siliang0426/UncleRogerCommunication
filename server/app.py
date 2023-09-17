@@ -18,6 +18,7 @@ client = MongoClient("mongodb+srv://jiaming:9R65kJIHzJOC2e5i@cluster0.akhyses.mo
 db = client["Communication"]
 user_collection = db["User"]
 question_collection = db["Questions"]
+answer_collection = db["Answer"]
 fs = gridfs.GridFS(db)
 
 #writing stopword
@@ -142,7 +143,8 @@ def question():
             question = {"question": text_content, "file_id": file_id}
             
             question_collection.insert_one(question)
-            
+            qb = question_collection.find_one({"question": text_content})
+            answer_collection.insert_one({"questionID": qb['_id'],"answer":None})
             return jsonify({"status": "success", "message": "Question submit Success"}), 200
     except Exception as e:
         print("Error: ", e)  # Log the exception for debugging
@@ -156,14 +158,9 @@ def question_display():
         if request.method == 'GET':
             question = question_collection.find_one()
             
-            file_id = question['file_id']
             question_message = question['question']
-            
-            file_data = fs.get(file_id)
-            
-            encoded = base64.b64encode(file_data.read()).decode('utf-8')
+    
             response = {
-                'file_data': encoded,
                 'message': question_message
             }
             
@@ -180,18 +177,18 @@ def answer2Question():
             abort(403)  # Forbidden
             
         if request.method == 'POST':
-            question = question_collection.find_one()
+            questionID = request.json.get("question_id")
+            question = question_collection.find_one({"_id":questionID})
             if not question:
                 return jsonify({"status": "failure", "error": "No question found"}), 404
             
-            questionID = question['_id']
             
             respond = request.json.get('respond', None)
             if not respond:
                 return jsonify({"status": "failure", "error": "No response provided"}), 400
             
             # Update the 'responds' field in the document.
-            question_collection.update_one(
+            answer_collection.update_one(
                 {"_id": questionID},
                 {"$addToSet": {"responds": respond}}
             )
