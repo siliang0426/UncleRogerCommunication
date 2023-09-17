@@ -1,43 +1,23 @@
-<html lang="en">
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Question</title>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <title>Question Panel</title>
+  <link rel="stylesheet" href="./question.css">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> 
 </head>
 <body>
-    <h1>Ask a Question: </h1>
-    <form id="question_submit">
-        <label for="question">Question: </label><br>
-        <textarea name="question" id="question" cols="50" rows="10"></textarea><br>
-        <input type="submit" value="Submit">
-    </form>
-    <script>
-        $("#question_submit").on('submit', function(event) {
-        event.preventDefault();  // Prevent the form from submitting the default way
-      
-        var question = $("#question").val();  // These should work now
-      
-      // Prepare the data to send
-    //   var data = {
-    //     'Username': username,
-    //     'PassWord': password,
-    //   };
-      
-      // AJAX POST request
-      $.ajax({
-        url: 'http://localhost:5000/question',
-        type: 'POST',
-        contentType: 'application/json',
-        data: question,
-        success: function(response) {
-          alert('Server Response: ' + response.message);  // This will show the message from the server
-        },
-        error: function(error) {
-          alert('Server Response: ' + error.responseText);
-        }
-      });
-    });
-    </script>
+
+<h1 id="freeform">Question Panel</h1>
+
+<form>
+    <textarea id="texting" rows="10" cols="50" type = "text">
+    </textarea>
+    <div id="filePlace">
+        <label class="mr-2">Upload your file:</label>
+        <input id = "newFile" type="file" name="file"/>
+      </div>
+    <button class="button-14" role="button" type="submit">Submit</button>
+</form>
 </body>
 </html>

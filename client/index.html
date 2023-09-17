@@ -19,16 +19,12 @@
     </div>
     
     <div class="form-field">
-      <button class="btn" type="submit">Log in</button>
+      <button id="login" type="submit">Log in</button>
     </div>
-    
-    <div class ="form-field">
-      <a href="signup.html">
-        <button class = "btn1">Sign Up</button>
-    </a>
-    </div>
-
   </form>
+  <a href="signup.html">
+    <button id = "signup">Sign Up</button>
+  </a>
   <script>
     // On form submission
     $("#userForm").on('submit', function(event) {
@@ -50,7 +46,8 @@
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function(response) {
-          alert('Server Response: ' + response.message);  // This will show the message from the server
+          alert('Server Response: ' + response.message);  //This will show the message from the server
+          window.location.herf('question.html')
         },
         error: function(error) {
           alert('Server Response: ' + error.responseText);

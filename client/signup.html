@@ -5,6 +5,7 @@
 <head>
   <title>Simple Frontend</title>
   <link rel="stylesheet" href="./style.css">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> 
 </head>
 <body>
   <h1> Signup Form </h1>
@@ -39,13 +40,14 @@
       
       // AJAX POST request
       $.ajax({
-        url: 'http://localhost:5000/user',
+        url: 'http://localhost:5000/signup',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function(response) {
           alert('Successfully sent data to server!');
           console.log(response);
+          window.location.href = 'index.html';
         },
         error: function(error) {
           alert('Failed to send data to server.');
