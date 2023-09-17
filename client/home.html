@@ -7,7 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> 
 </head>
 <body>
-    <h1>September 15, 2023</h1>
+    <h1>September 13, 2023</h1>
     <h2>Welcome back!</h2>
     <!-- button to patient search -->
     <!-- <a class="button" href="question.html"><img src="images/doctor.png" alt="doctor_icon" width="30"> Ask a Question</a> -->
@@ -16,32 +16,9 @@
     <a class="button" href="chat.html"><img src="images/chat.png" alt="chat_icon" width="30"> Chats</a>
     <a class="button" href=""><img src="images/calendar.png" alt="calendar_icon" width="30"> Schedule</a>
     <a class="button" href=""><img src="images/settings.png" alt="settings_icon" width="30"> Settings</a>
-    <a id="logout-button" class="button"><img src="images/exit.png" alt="exit_icon" width="30"> Log Out</a>
+    <a id="logout-button" class="button" href="index.html"><img src="images/exit.png" alt="exit_icon" width="30"> Log Out</a>
 
-    <script>
-    // JavaScript
-    $(document).ready(function() {
-      // Bind click event to logout button
-      $('#logout-button').click(function(e) {
-        e.preventDefault();
-    
-        // Perform AJAX request to your /logout endpoint
-        $.ajax({
-          url: 'http://localhost:5000/logout',
-          type: 'GET',
-          success: function(response) {
-            // Redirect to index.html or any other page upon successful logout
-            window.location.href = 'index.html';
-            console.log('success');
-          },
-          error: function(error) {
-            // Handle error (you can also redirect to login or another page)
-            console.error('Error during logout:', error);
-          }
-        });
-      });
-    });
-    </script>
+  
 
 
 

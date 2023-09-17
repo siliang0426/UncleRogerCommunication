@@ -14,7 +14,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "a456P77"  # Set secret key
 CORS(app)
 
-openai.api_key = "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"
+# openai.api_key = "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"
 client = MongoClient("mongodb+srv://jiaming:9R65kJIHzJOC2e5i@cluster0.akhyses.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp")
 db = client["Communication"]
 user_collection = db["User"]

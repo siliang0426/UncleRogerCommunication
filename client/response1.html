@@ -9,7 +9,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <h1>Patient Question</h1>
+    <h1>Question</h1>
 
   <nav class="main-menu">
     <ul>
@@ -73,13 +73,39 @@
         }
     </script>
 
-    <div class="input">
-      <form id="response_prompt1">
-        <input type="text" id="response1" name="response1" placeholder="Type your message here...">
-        <button class="button"><img src="images/send.png" alt="send" width="20px"></button>
-      </form>
-    </div>
-    
+<div class="input">
+  <form id="response_prompt1"> <!-- ID changed to response_prompt1 -->
+    <input type="text" id="response1" name="response1" placeholder="Type your message here...">
+    <button class="button" type="submit"><img src="images/send.png" alt="send" width="20px"></button>
+  </form>
+</div>
+
+    <script>
+     // Make sure q_ID is defined before this. If not, define it.
+// var q_ID = {}; 
+
+$("#response_prompt1").on('submit', function(event) { // ID corrected here
+  event.preventDefault(); // Prevent the form from submitting the default way
+  var responses_ = $("#response1").val();  // Typo corrected
+  q_ID['respond'] = responses_; // Typo corrected
+
+  // AJAX POST request
+  $.ajax({
+    url: 'http://localhost:5000/answer2Question',
+    type: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(q_ID),
+    success: function(response) {
+      alert('Server Response: ' + response.message);  // This will show the message from the server
+    },
+    error: function(error) {
+      alert('Server Response: ' + error.responseText);
+    }
+  });
+});
+
+    </script>
+
     <div class="container" style="margin-left:250px">
         <img src="./images/artificial-intelligence.png" alt="Avatar">
         <p id="aiResponse"></p>
