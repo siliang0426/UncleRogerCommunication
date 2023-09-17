@@ -3,14 +3,18 @@
 <html>
 <head>
   <title>Generated Question</title>
-  <!-- <link rel="stylesheet" href="./question.css"> -->
+  <link rel="stylesheet" href="./chat.css">
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> 
 </head>
 <body>
-    <h1>Random Question:</h1>
+    <h1>Doctor's Question</h1>
+    <br><br><br>
     <p id="question"></p>
-    <button onclick="getRandomQuestion()">Get Random Question</button>
-    
+    <form>
+        <textarea id="texting" rows="10" cols="50" type = "text">
+        </textarea>
+        <button class="button-14" role="button" type="submit">Submit</button>
+    </form>
     <script>
         function getRandomQuestion() {
             // Load the questions from the text file
@@ -30,4 +34,35 @@
                     console.error('Error:', error);
                 });
         }
+        // Call getRandomQuestion() when the page loads
+        window.onload = getRandomQuestion();
     </script>
+    <script>
+        $(document).ready(function(){
+      $("form").submit(function(e){
+          e.preventDefault();
+  
+          var text_content = $("#texting").val();
+          
+          var formData = new FormData();
+          formData.append('textContent', text_content);
+  
+          $.ajax({
+              url: 'http://localhost:5000/question',
+              type: 'POST',
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function(response) {
+                  alert("Success:", response.message);
+                  window.location.href = 'home.html';
+              },
+              error: function(error) {
+                  alert("Error:", error.responseText);
+              }
+          });
+      });
+  });
+    </script>
+</body>
+</html>
