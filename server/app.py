@@ -33,7 +33,7 @@ with open(stopwords_file_path, 'r') as f:
 
 freq_disease_symptoms = {}
 disease_symptoms = {}
-with open('patients.csv', 'r') as csvfile:
+with open('reasources/patients.csv', 'r') as csvfile:
     csv_reader = csv.reader(csvfile)
     next(csv_reader)  # Skip the header row
 
@@ -50,6 +50,8 @@ with open('patients.csv', 'r') as csvfile:
 for disease, symptoms in disease_symptoms.items():
     count_symptoms = Counter(symptoms)
     for symptom, count in count_symptoms.most_common():
+        if disease not in freq_disease_symptoms:
+            freq_disease_symptoms[disease] = []
         freq_disease_symptoms[disease].append(symptom)
 
 
