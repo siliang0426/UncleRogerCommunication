@@ -1,8 +1,8 @@
-from flask import Flask, jsonify, session, redirect, url_for, request, render_template, abort
+from flask import Flask, jsonify, redirect, url_for, request, render_template, abort
 from flask_cors import CORS
 from pymongo import MongoClient
-from flask_session import Session
 from collections import Counter
+from bson.objectid import ObjectId
 import csv
 import re
 import openai
@@ -111,7 +111,6 @@ def login():
             user1 = user_collection.find_one({"Username": username})
             if user1:
                 if user1["PassWord"] == password:
-                    session["username"] = username
                     return jsonify({"status": "success", "message": "SignIn Success"}), 200
                 else:
                     return jsonify({"status": "failure", "error": "Password Fail"}), 400
@@ -120,17 +119,10 @@ def login():
     except Exception as e:
         return jsonify({"status": "failure", "error": str(e)}), 500
 
-@app.route('/logout', methods=['GET'])
-def logout():
-    # Remove the username from the session if it's there
-    session.pop('username', None)
-    return jsonify({"status": "success", "message": "Logout Success"}), 200
 
 @app.route('/question',methods=['POST'])
 def question():
     try:
-        if 'username' not in session:
-            abort(403)  # Forbidden
         if request.method == 'POST':
             text_content = request.form.get('textContent')
             uploaded_file = request.files.get('file')  # Use get to avoid KeyError
@@ -153,15 +145,18 @@ def question():
 @app.route('/question_display',methods=['GET'])
 def question_display():
     try:
-        if 'username' not in session:
-            abort(403)  # Forbidden
         if request.method == 'GET':
             question = question_collection.find_one()
-            
+            if question is None:
+                return jsonify({"status": "failure", "error": "no question"}), 500
+
             question_message = question['question']
-    
+            question_id = question['_id']
+            question_id = str(question_id)
+
             response = {
-                'message': question_message
+                'message': question_message,
+                'question_id':question_id
             }
             
             return jsonify(response), 200
@@ -173,12 +168,12 @@ def question_display():
 @app.route('/answer2Question', methods=['POST'])
 def answer2Question():
     try:
-        if 'username' not in session:
-            abort(403)  # Forbidden
             
         if request.method == 'POST':
             questionID = request.json.get("question_id")
+            questionID = ObjectId(questionID)
             question = question_collection.find_one({"_id":questionID})
+
             if not question:
                 return jsonify({"status": "failure", "error": "No question found"}), 404
             
