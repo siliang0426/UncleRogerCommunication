@@ -1,0 +1,6 @@
+### Pitt Hackathon Project
+## _This project was tended to using machine learning, data processing and AI concept to help with the Doctor to Doctor communication. We as the team member do realized that the question and problems due exists on the medical field expert that they need to consulting other expertise about their opinion._
+## This project is using the pre-processed dataset from the hospital database to learn and searching the key symptom and other medical metrics to feed the AI model, specifically, openAI GPT, and the GPT will generate the summarized generated report based on the doctor's opinion and the data we've pre-processed for the first part, and based on the first part the second part wil providing some suggestion of what patient should done. In our project, we are not have the problem of entering the false information which will trigger the potential false problem which may damage patient's judgement.
+# Backend Contribution: Siliang 
+# Frontend Contribution: Dana, Siliang, Jiaming
+# Data Contribution: Yun, Siliang
