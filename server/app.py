@@ -3,6 +3,7 @@ from flask_cors import CORS
 from pymongo import MongoClient
 from collections import Counter
 from bson.objectid import ObjectId
+from dotenv import load_dotenv
 import csv
 import re
 import openai
@@ -11,11 +12,11 @@ import gridfs
 import base64
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "a456P77"  # Set secret key
+app.config['SECRET_KEY'] = os.getenv("a456P77")
 CORS(app)
 
-openai.api_key = "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"
-client = MongoClient("mongodb+srv://jiaming:9R65kJIHzJOC2e5i@cluster0.akhyses.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp")
+openai.api_key = os.getenv("openai_api")
+client = MongoClient(os.getenv("mongo_api"))
 db = client["Communication"]
 user_collection = db["User"]
 question_collection = db["Questions"]
